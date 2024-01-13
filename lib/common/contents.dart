@@ -1,5 +1,6 @@
 import 'dart:ui';
-import 'dart:math' as math;
+
+import 'package:flutter/services.dart';
 
 const gameBgColor = Color(0xff969696);
 
@@ -19,3 +20,22 @@ enum Direction {
   up,
   down,
 }
+
+const upKeys = [
+  PhysicalKeyboardKey.keyW,
+  PhysicalKeyboardKey.arrowUp,
+];
+const downKeys = [
+  PhysicalKeyboardKey.keyS,
+  PhysicalKeyboardKey.arrowDown,
+];
+const leftKeys = [
+  PhysicalKeyboardKey.keyA,
+  PhysicalKeyboardKey.arrowLeft,
+];
+const rightKeys = [
+  PhysicalKeyboardKey.keyD,
+  PhysicalKeyboardKey.arrowRight,
+];
+
+const moveKeys = [...upKeys, ...downKeys, ...leftKeys, ...rightKeys];

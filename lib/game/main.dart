@@ -9,7 +9,7 @@ class GamgeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GameWidget<MyTankGame>(
       game: MyTankGame(),
-      overlayBuilderMap: {
+      overlayBuilderMap: const {
         // 'menu': (_, game) => Menu(game),
         // 'gameover': (_, game) => GameOver(game),
       },

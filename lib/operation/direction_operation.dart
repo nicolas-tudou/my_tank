@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
+import 'package:flame/events.dart';
 import 'package:my_tank/game/game.dart';
 
 import '../common/contents.dart';
@@ -8,61 +8,62 @@ import '../utils/math.dart';
 import 'op_bar.dart';
 
 class DirectionOperation extends RectangleComponent
-    with HasGameRef<MyTankGame>, Draggable {
+    with HasGameRef<MyTankGame>, DragCallbacks {
   DirectionOperation({super.position, super.size}) {
     paint = Paint()
-      ..color = const Color(0xffff4400)
+      ..color = const Color(0xffffffff)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
   }
 
   Vector2? _startPoint;
+  Vector2? _lastPoint;
   OpBar? opBar;
 
   @override
-  bool onDragStart(DragStartInfo info) {
-    final pos = info.eventPosition.game;
+  void onDragStart(DragStartEvent event) {
+    super.onDragStart(event);
+    final pos = event.localPosition;
+    print('position: ${pos}');
     _startPoint = pos.clone();
     add(opBar = OpBar(position: pos, radius: 48));
-    return super.onDragStart(info);
   }
 
   @override
-  bool onDragUpdate(DragUpdateInfo info) {
-    final delta = info.eventPosition.game - (_startPoint ?? Vector2.zero());
-    opBar!.updateBarPosition(delta);
+  void onDragUpdate(DragUpdateEvent event) {
+    final delta = event.localStartPosition - (_lastPoint ?? Vector2.zero());
+    _lastPoint = event.localStartPosition;
+    opBar!.updateBarPosition(
+        event.localStartPosition - (_startPoint ?? Vector2.zero()));
 
+    Direction dir;
     if (abs(delta.x) > abs(delta.y)) {
       // ver
-      gameRef.myTank
-        ..changeDirection(delta.x > 0 ? Direction.right : Direction.left)
-        ..move();
+      gameRef.myTank.autoMoveTo(delta.x > 0 ? Direction.right : Direction.left);
     } else if (abs(delta.x) < abs(delta.y)) {
       // hor
-      gameRef.myTank
-        ..changeDirection(delta.y > 0 ? Direction.down : Direction.up)
-        ..move();
+      gameRef.myTank.autoMoveTo(delta.y > 0 ? Direction.down : Direction.up);
     }
-    return super.onDragUpdate(info);
+    return super.onDragUpdate(event);
   }
 
   @override
-  bool onDragEnd(DragEndInfo info) {
+  void onDragEnd(DragEndEvent event) {
     _startPoint = null;
     gameRef.myTank.stop();
     if (opBar != null) {
       opBar!.removeFromParent();
     }
-    return super.onDragEnd(info);
+    return super.onDragEnd(event);
   }
 
   @override
-  bool onDragCancel() {
+  void onDragCancel(DragCancelEvent event) {
     _startPoint = null;
     gameRef.myTank.stop();
     if (opBar != null) {
       opBar!.removeFromParent();
     }
-    return super.onDragCancel();
+    return super.onDragCancel(event);
   }
 }

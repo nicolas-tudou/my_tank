@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'package:flame/components.dart';
-import 'package:my_tank/tank/my_tank.dart';
 import '../tank/bullet.dart';
 import '../utils/direction.dart';
 import '../common/contents.dart';

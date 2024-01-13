@@ -19,11 +19,6 @@ class TankBackground extends RectangleComponent with CollisionCallbacks {
   @override
   Future<void>? onLoad() {
     add(RectangleHitbox());
-  }
-
-  @override
-  void onCollisionStart(
-      Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollisionStart(intersectionPoints, other);
+    return null;
   }
 }

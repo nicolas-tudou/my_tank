@@ -1,6 +1,5 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_tank/tank/bullet.dart';
 
@@ -29,6 +28,7 @@ abstract class BaseTank extends SpriteComponent
   @override
   Future<void>? onLoad() {
     add(RectangleHitbox());
+    return null;
   }
 
   @mustCallSuper
@@ -80,7 +80,11 @@ abstract class BaseTank extends SpriteComponent
         pos = pos..x += speed;
         break;
     }
-    return pos;
+    var abPos = absolutePositionOf(pos);
+    if (gameRef.canMoveTo(abPos)) {
+      return pos;
+    }
+    return position;
   }
 
   Direction? overflowDirection(Vector2 nextPos) {

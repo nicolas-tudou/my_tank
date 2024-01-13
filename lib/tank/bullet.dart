@@ -1,6 +1,5 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:my_tank/tank/enmy_tank.dart';
 import 'package:my_tank/tank/my_tank.dart';
 
@@ -28,6 +27,7 @@ class Bullet extends SpriteComponent
   @override
   Future<void>? onLoad() {
     add(RectangleHitbox());
+    return null;
   }
 
   @override

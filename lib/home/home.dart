@@ -2,7 +2,6 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/palette.dart';
 
-import '../tank/bullet.dart';
 
 class MyTankHome extends RectangleComponent with CollisionCallbacks {
   MyTankHome({super.position, super.size, required this.homeSprite})
@@ -20,14 +19,7 @@ class MyTankHome extends RectangleComponent with CollisionCallbacks {
       position: Vector2.zero(),
     ));
     add(RectangleHitbox());
+    return null;
   }
 
-  @override
-  void onCollisionStart(
-      Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollisionStart(intersectionPoints, other);
-    // if (other is Bullet) {
-    //   com.removeFromParent();
-    // }
-  }
 }

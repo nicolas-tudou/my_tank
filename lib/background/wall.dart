@@ -13,11 +13,6 @@ class Wall extends SpriteComponent
           anchor: Anchor.center,
         );
 
-  @override
-  void onCollisionStart(
-      Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollisionStart(intersectionPoints, other);
-  }
 }
 
 class WallManager {
