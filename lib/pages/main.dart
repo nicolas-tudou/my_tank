@@ -1,5 +1,8 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import '../components/fire_bar.dart';
+import '../components/game_info.dart';
+import '../components/operation_bar.dart';
 import 'game.dart';
 
 class GamgeWidget extends StatelessWidget {
@@ -8,6 +11,7 @@ class GamgeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     if (size.width > size.height) {
       return _buildLandscapeScreen();
     } else {
@@ -21,15 +25,30 @@ class GamgeWidget extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Center(
-              child: Text('operation & score'),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Text('game info'),
+                  ),
+                ),
+                OperationBar(),
+              ],
             ),
           ),
           Expanded(flex: 3, child: buildGameContent()),
           Expanded(
             flex: 1,
-            child: Center(
-              child: Text('fire & other info'),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Text('game info'),
+                  ),
+                ),
+                FireBar(),
+                SizedBox(height: 30),
+              ],
             ),
           ),
         ],
@@ -43,17 +62,18 @@ class GamgeWidget extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Center(
-              child: Text('score info'),
-            ),
+            child: GameInfo(),
           ),
           Expanded(flex: 3, child: buildGameContent()),
           Expanded(
-            flex: 1,
-            child: Center(
-              child: Text('operation'),
-            ),
-          ),
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  OperationBar(),
+                  FireBar(),
+                ],
+              )),
         ],
       ),
     );
