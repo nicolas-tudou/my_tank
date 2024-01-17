@@ -1,6 +1,6 @@
-import 'package:flutter/widgets.dart';
-import 'game/main.dart';
+import 'package:flutter/material.dart';
+import 'pages/main.dart';
 
 void main() {
-  runApp(const GamgeWidget());
+  runApp(const MaterialApp(home: GamgeWidget()));
 }

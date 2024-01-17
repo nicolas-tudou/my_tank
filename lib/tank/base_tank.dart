@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_tank/tank/bullet.dart';
 
 import '../common/contents.dart';
-import '../game/game.dart';
+import '../pages/game.dart';
 import '../utils/sprite.dart';
 
 abstract class BaseTank extends SpriteComponent

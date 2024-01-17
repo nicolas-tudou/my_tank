@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:my_tank/game/game.dart';
+import 'package:my_tank/pages/game.dart';
 
 import '../common/contents.dart';
 import '../utils/math.dart';

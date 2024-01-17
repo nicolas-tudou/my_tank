@@ -5,7 +5,7 @@ import 'package:my_tank/tank/my_tank.dart';
 
 import '../background/background.dart';
 import '../common/contents.dart';
-import '../game/game.dart';
+import '../pages/game.dart';
 import '../types/collision.dart';
 
 class Bullet extends SpriteComponent

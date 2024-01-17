@@ -1,7 +1,7 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-import '../game/game.dart';
+import '../pages/game.dart';
 
 class Wall extends SpriteComponent
     with HasGameRef<MyTankGame>, CollisionCallbacks {
@@ -12,7 +12,6 @@ class Wall extends SpriteComponent
   }) : super(
           anchor: Anchor.center,
         );
-
 }
 
 class WallManager {

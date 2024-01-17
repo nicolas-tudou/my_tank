@@ -47,12 +47,10 @@ class MyTankGame extends FlameGame with HasCollisionDetection, KeyboardEvents {
 
   @override
   Future<void>? onLoad() async {
+    // Flame.device.setLandscape();
+    // Flame.device.setLandscapeRightOnly();
     updateAreaInfo(size);
     spriteImage = await Flame.images.load('tank-img.png');
-    // Flame.device.setPortraitUpOnly();
-    Flame.device.setLandscapeRightOnly();
-    // Flame.device.setOrientation(DeviceOrientation.landscapeRight);
-    // Flame.device.setPortrait();
     add(ScreenHitbox());
     _init();
     initAudio();
@@ -115,7 +113,7 @@ class MyTankGame extends FlameGame with HasCollisionDetection, KeyboardEvents {
   _init() {
     loadBg();
     loadWall();
-    loadOperation();
+    // loadOperation();
     loadHome();
     loadMyTank();
     loadEnmyTank();
