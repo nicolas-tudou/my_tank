@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../pages/main.dart';
+
 class FireBar extends StatefulWidget {
   const FireBar({super.key});
 
@@ -12,6 +14,7 @@ class _FireBarState extends State<FireBar> {
 
   void _handleTap() {
     print('fire');
+    myTankGameInstance.myTank.fire();
     // setState(() {
     //   _color = Colors.green;
     // });

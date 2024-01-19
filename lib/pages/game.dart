@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'dart:math' as math;
 import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart' show KeyEventResult;
@@ -14,7 +13,6 @@ import '../home/home.dart';
 import '../operation/direction_operation.dart';
 import '../background/background.dart';
 import '../common/contents.dart';
-import '../operation/fire_operation.dart';
 import '../tank/enmy_tank.dart';
 import '../tank/my_tank.dart';
 import '../utils/sprite.dart';
@@ -47,8 +45,6 @@ class MyTankGame extends FlameGame with HasCollisionDetection, KeyboardEvents {
 
   @override
   Future<void>? onLoad() async {
-    // Flame.device.setLandscape();
-    // Flame.device.setLandscapeRightOnly();
     updateAreaInfo(size);
     spriteImage = await Flame.images.load('tank-img.png');
     add(ScreenHitbox());
@@ -71,15 +67,10 @@ class MyTankGame extends FlameGame with HasCollisionDetection, KeyboardEvents {
   }
 
   void updateAreaInfo(Vector2 size) {
-    var areaInfo = getGameArea(size);
-    gameArea = areaInfo.gameArea;
-    operationArea = areaInfo.operationArea;
-    fireArea = areaInfo.fireArea;
+    gameArea = getGameArea(size);
   }
 
   void initAudio() async {
-    // FlameAudio.bgm.initialize();
-    // FlameAudio.bgm.play('start.wav');
     // await FlameAudio.audioCache.loadAll(['fire.wav', 'hit.wav']);
     firePool = await FlameAudio.createPool('fire.wav', maxPlayers: 7);
     hitPool = await FlameAudio.createPool('hit.wav', maxPlayers: 1);
@@ -113,7 +104,6 @@ class MyTankGame extends FlameGame with HasCollisionDetection, KeyboardEvents {
   _init() {
     loadBg();
     loadWall();
-    // loadOperation();
     loadHome();
     loadMyTank();
     loadEnmyTank();
@@ -164,17 +154,6 @@ class MyTankGame extends FlameGame with HasCollisionDetection, KeyboardEvents {
 
   loadBg() {
     add(bg = TankBackground(gameArea));
-  }
-
-  loadOperation() {
-    add(dirOp = DirectionOperation(
-      position: Vector2(operationArea.left, operationArea.top),
-      size: Vector2(operationArea.width, operationArea.height),
-    ));
-    add(FireOperation(
-      position: Vector2(fireArea.left, fireArea.top),
-      size: Vector2(fireArea.width, fireArea.height),
-    ));
   }
 
   loadWall() {}

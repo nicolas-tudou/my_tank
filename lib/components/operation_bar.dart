@@ -1,6 +1,15 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
+import '../common/contents.dart';
+import '../pages/main.dart';
+
+const double boxWidth = 130;
+const double barWidth = 36;
+Offset boxSize = const Offset(boxWidth, boxWidth);
+Offset barSize = const Offset(barWidth, barWidth);
+Offset defaultPosition = (boxSize - barSize) / 2;
+
 class OperationBar extends StatefulWidget {
   const OperationBar({super.key});
 
@@ -8,12 +17,9 @@ class OperationBar extends StatefulWidget {
   State<OperationBar> createState() => _OperationBarState();
 }
 
-Offset boxSize = const Offset(130, 130);
-Offset barSize = const Offset(30, 30);
-Offset defaultPosition = (boxSize - barSize) / 2;
-
 class _OperationBarState extends State<OperationBar> {
   Offset position = defaultPosition;
+  Direction direction = Direction.up;
 
   void _handlePanDown(DragDownDetails detail) {
     // print(detail.localPosition);
@@ -22,22 +28,32 @@ class _OperationBarState extends State<OperationBar> {
     });
   }
 
-  void _handlePanStart(DragStartDetails detail) {
-    // print(detail.localPosition);
-    // setState(() {
-    //   position = detail.localPosition - barSize / 2;
-    // });
-  }
-
   void _handlePanUpdate(DragUpdateDetails detail) {
-    print('delta:${detail.delta}');
+    // print('delta:${detail.delta}');
     Offset newPos = position + detail.delta;
     Offset gap = newPos - defaultPosition;
     double maxR = boxSize.dx / 2 - barSize.dx / 2;
-    print('maxR: ${maxR}');
+    // print('maxR: ${maxR}');
     if (math.sqrt(gap.dx * gap.dx + gap.dy * gap.dy) > maxR) {
       return;
     }
+
+    var relatePos = newPos - (boxSize - barSize) / 2;
+    if (relatePos.direction > -math.pi / 4 &&
+        relatePos.direction < math.pi / 4) {
+      direction = Direction.right;
+    } else if (relatePos.direction > math.pi / 4 &&
+        relatePos.direction < math.pi * 3 / 4) {
+      direction = Direction.down;
+    } else if (relatePos.direction > math.pi * 3 / 4 ||
+        relatePos.direction < -math.pi * 3 / 4) {
+      direction = Direction.left;
+    } else {
+      direction = Direction.up;
+    }
+
+    myTankGameInstance.myTank.autoMoveTo(direction);
+
     setState(() {
       position = newPos;
     });
@@ -45,6 +61,7 @@ class _OperationBarState extends State<OperationBar> {
 
   void _handlePanEnd(DragEndDetails detail) {
     // print(detail.velocity.pixelsPerSecond);
+    myTankGameInstance.myTank.stop();
     setState(() {
       position = defaultPosition;
     });
@@ -52,10 +69,8 @@ class _OperationBarState extends State<OperationBar> {
 
   @override
   Widget build(BuildContext context) {
-    print('position: ${position}');
     return GestureDetector(
       onPanDown: _handlePanDown,
-      onPanStart: _handlePanStart,
       onPanEnd: _handlePanEnd,
       onPanUpdate: _handlePanUpdate,
       child: Container(
@@ -73,10 +88,66 @@ class _OperationBarState extends State<OperationBar> {
               left: position.dx,
               child: const OperationIndicatorBar(),
             ),
+            Positioned(
+              top: 20,
+              left: 50,
+              child: OperationDirectionIndicator(
+                active: direction == Direction.up,
+                direction: direction,
+              ),
+            ),
+            Positioned(
+              top: 50,
+              left: 80,
+              child: OperationDirectionIndicator(
+                active: direction == Direction.right,
+                direction: direction,
+              ),
+            ),
+            Positioned(
+              top: 80,
+              left: 50,
+              child: OperationDirectionIndicator(
+                active: direction == Direction.down,
+                direction: direction,
+              ),
+            ),
+            Positioned(
+              top: 50,
+              left: 20,
+              child: OperationDirectionIndicator(
+                active: direction == Direction.left,
+                direction: direction,
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class OperationDirectionIndicator extends StatelessWidget {
+  OperationDirectionIndicator(
+      {super.key, required bool active, required Direction direction});
+
+  bool active = false;
+  Direction? direction;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: Icon(Icons.auto_graph));
+  }
+}
+
+class DirectionArrow extends StatelessWidget {
+  DirectionArrow({super.key, required Direction this.direction});
+
+  Direction direction;
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
 

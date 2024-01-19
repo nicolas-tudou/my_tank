@@ -36,7 +36,6 @@ class DirectionOperation extends RectangleComponent
     opBar!.updateBarPosition(
         event.localStartPosition - (_startPoint ?? Vector2.zero()));
 
-    Direction dir;
     if (abs(delta.x) > abs(delta.y)) {
       // ver
       gameRef.myTank.autoMoveTo(delta.x > 0 ? Direction.right : Direction.left);

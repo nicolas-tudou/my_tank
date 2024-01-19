@@ -5,6 +5,8 @@ import '../components/game_info.dart';
 import '../components/operation_bar.dart';
 import 'game.dart';
 
+late MyTankGame myTankGameInstance;
+
 class GamgeWidget extends StatelessWidget {
   const GamgeWidget({Key? key}) : super(key: key);
 
@@ -13,13 +15,13 @@ class GamgeWidget extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     if (size.width > size.height) {
-      return _buildLandscapeScreen();
+      return _buildLandscapeScreen(context);
     } else {
-      return _buildNormalScreen();
+      return _buildNormalScreen(context);
     }
   }
 
-  Widget _buildLandscapeScreen() {
+  Widget _buildLandscapeScreen(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
@@ -36,7 +38,7 @@ class GamgeWidget extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(flex: 3, child: buildGameContent()),
+          Expanded(flex: 3, child: buildGameContent(context)),
           Expanded(
             flex: 1,
             child: Column(
@@ -56,7 +58,7 @@ class GamgeWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildNormalScreen() {
+  Widget _buildNormalScreen(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
@@ -64,7 +66,7 @@ class GamgeWidget extends StatelessWidget {
             flex: 1,
             child: GameInfo(),
           ),
-          Expanded(flex: 3, child: buildGameContent()),
+          Expanded(flex: 3, child: buildGameContent(context)),
           Expanded(
               flex: 1,
               child: Row(
@@ -79,9 +81,12 @@ class GamgeWidget extends StatelessWidget {
     );
   }
 
-  Widget buildGameContent() {
+  Widget buildGameContent(BuildContext context) {
+    var gameInstance = MyTankGame();
+    myTankGameInstance = gameInstance;
+
     return GameWidget<MyTankGame>(
-      game: MyTankGame(),
+      game: gameInstance,
       overlayBuilderMap: const {
         // 'menu': (_, game) => Menu(game),
         // 'gameover': (_, game) => GameOver(game),
